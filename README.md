@@ -1,70 +1,23 @@
-# Getting Started with Create React App
+# README.MD
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Как установить и запустить
 
-## Available Scripts
+- npm install
+- npm run start
 
-In the project directory, you can run:
+## Ход мыслей
 
-### `npm start`
+Есть 2 варианта как сделать скрытие части строки и отображение n последних символов. 
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+Обрезать строки через JS и через ellipsis в стилях CSS. Первый вариант звучит как много вычислений да и в поиске ctrl + f / cmd + f у нас не будет искаться строка полностью
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Второй вариант нас избавляет от всех минусов первого варианта. Но накладывает ограничение на верстку. В один div элемент не запихнешь весь текст + хвост, так что придется разбить на 2 части: эллипсис элемент + хвост - видимая часть, полная строка - то по чему мы будем делать поиск. 
 
-### `npm test`
+А затем нужно написать логику копирования в буффер, так как копироваться оно будет кривовато и с переносами строки
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+Я пришел к решению, что лучше закешировать генерацию данных и отрисованные ячейки таблицы. Чтобы когда мы меняем ширину таблицы, оно заново все не перерисовывалось, а брало уже закешированные данные. В реальной жизни эти кэши бы были перезаписываемые для поддержания консистентности данных, но так как у нас они тут статические, то этот момент упрощен для простоты восприятия
 
-### `npm run build`
-
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
-
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
-
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
-
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Что касаемо "production quality", то я:
+- организовал структуру проекта так как я бы это делал на реальном проекте
+- по максимуму все декомпозировал и следил за читаемостью кода
+- решил написать к нему тесты, чтобы покрыть все требования выше и снизить вероятность багов
